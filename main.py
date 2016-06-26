@@ -33,7 +33,7 @@ def populateRecords():
                 'SELECT *, '
                 'FROM [beacon_sample_Data.json_block],'
 
-                'LIMIT 100;')
+                'LIMIT 10;')
         }
 
         query_response = query_request.query(
@@ -49,8 +49,8 @@ def populateRecords():
                 currentutc = int(cell['currentutc']) / 1000
                 date = datetime.datetime.utcfromtimestamp(currentutc).strftime('%m/%d/%Y') 
                 logging.info(date)
-                #models.insertWebRecords(website, day)
-                #models.insertWebDayRecords(website, date)
+                models.insertWebRecords(website, day)
+                models.insertWebDayRecords(website, date)
 
     except Exception as e:
         logging.error(e)
@@ -71,7 +71,7 @@ class HomeHandler(BaseHandler):
         logging.info(populate_records)
         if populate_records == 'true':
             self.response.write('populating records...')
-            #deferred.defer(populateRecords)
+            deferred.defer(populateRecords)
             self.redirect('/')
         else:  
             data = "<h1>Hello welcome to Ric's Woven Code Test 2016</h1>"
