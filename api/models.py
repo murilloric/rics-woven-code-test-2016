@@ -64,29 +64,49 @@ def insertWebDayRecords(website, date):
 		web_day_model.page_views = web_day_model.page_views + 1
 		web_day_model.put()
 
+def getDateList():
+	numdays = 7
+	base = datetime.datetime.today()
+	date_list = [base - datetime.timedelta(days=x) for x in range(0, numdays)]
+	return [str(x.strftime('%m/%d/%Y')) for x in date_list]
+
+
 def queryWebsite(website, date):
 	#website must be in DataStore if True check if date args are equal to 'recent' or 'week' if not False
-	if website == 'all':
-		is_website = True
-	else:
-		is_website = WebsiteModel.query(WebsiteModel.name == website).get()
-
-	logging.info(is_website)
-	if is_website == None:
+	is_website = WebsiteModel.query(WebsiteModel.name == website).get()
+	if is_website == None and website != 'all':
 		return False
 	else:
 		if date != 'recent' and date != 'week':
 			return False
 		else:
 			#query for data
-			if date == 'recent':
+			data = {}
+			if date == 'recent' and website == 'all':
 				#query for past 7 days
-				#query
+				# date.now() + minus past 7 days
+				# fiter by date range
+				#data structure to return
+				# [{'uproxx.com':[{'6/20/2016':26}...]},
+				#  {'brobile.com':[{'6/20/2016':21}...]}
+				# ]
 
-				data = {}
+				seven_days = ['06/06/2016', '06/07/2016', '06/08/2016', '06/09/2016', '06/10/2016']
+				#seven_days = getDateList()
+				websites = {'uproxx.com':0, 'brobible.com':0}
+				for d in seven_days:
+					day = WebDayModel.query(WebDayModel.date == d).fetch()
+					for w in day:
+						websites[w.name] += w.page_views
+				data = websites
 			elif date == 'week':
 				#query by website return days of the week
-				data = {}
+				if is_website != None:
+					data = {website:is_website.day_of_week}
+				else:
+					return False
+			else:
+				return False
 			return data
 		return True
 
