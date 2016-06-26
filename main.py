@@ -86,15 +86,12 @@ class AnalyticsWebsite(BaseHandler):
             website = self.request.get('website')
             date = self.request.get('date')
             data = models.queryWebsite(website, date)
-            logging.info('website: ' + website + ' date: ' + date)
-            logging.info(data)
             if data == False:
                 raise Exception
-            self.response.write(data)
+            self.response.write(json.dumps({'status':200, 'message': 'data results', 'data':data}))
         except Exception as e:
-            logging.error(e)
             self.response.set_status(400)
-            self.response.write(e)
+            self.response.write(json.dumps({'status':400, 'message':'Bad Request, please read documentation', 'data':{}}))
 
 
 
