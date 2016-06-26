@@ -1,4 +1,5 @@
 import logging
+import time
 import datetime
 from google.appengine.ext import ndb
 
@@ -54,6 +55,7 @@ def insertWebRecords(website, day):
 		web_model.put()
 
 def insertWebDayRecords(website, date):
+	time.sleep(1)
 	web_day_model = WebDayModel.query(ndb.AND(WebDayModel.date == date, WebDayModel.name == website)).get()
 	logging.info(web_day_model)
 	if web_day_model == None:
@@ -62,5 +64,23 @@ def insertWebDayRecords(website, date):
 		web_day_model.page_views = web_day_model.page_views + 1
 		web_day_model.put()
 
+def queryWebsite(website, date):
+	is_website = WebsiteModel.query(WebsiteModel.name == website).get()
+	logging.info(is_website)
+	if is_website == None:
+		return False
+	else:
+		if date != 'recent' and date != 'week':
+			return False
+		else:
+			#query for data
+			if date == 'recent':
+				#query for past 7 days
+				data = {}
+			elif date == 'week':
+				#query by website return days of the week
+				data = {}
+			return data
+		return True
 
 

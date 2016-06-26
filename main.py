@@ -33,7 +33,7 @@ def populateRecords():
                 'SELECT *, '
                 'FROM [beacon_sample_Data.json_block],'
 
-                'LIMIT 5;')
+                'LIMIT 100;')
         }
 
         query_response = query_request.query(
@@ -45,11 +45,12 @@ def populateRecords():
             for cell in row['f']:
                 cell = json.loads(cell['v'])
                 website =  cell['url'].split("/")[2]
-                logging.info("website: " + website)
                 day = time.strftime("%A", time.localtime(int(cell['ctime'])))
-                date = time.strftime("%x", time.localtime(int(cell['ctime'])))
+                currentutc = int(cell['currentutc']) / 1000
+                date = datetime.datetime.utcfromtimestamp(currentutc).strftime('%m/%d/%Y') 
+                logging.info(date)
                 #models.insertWebRecords(website, day)
-                models.insertWebDayRecords(website, date)
+                #models.insertWebDayRecords(website, date)
 
     except Exception as e:
         logging.error(e)
@@ -66,12 +67,35 @@ class BaseHandler(webapp2.RequestHandler):
 
 class HomeHandler(BaseHandler):
     def get(self):
-        populateRecords()
-        #deferred.defer(populateRecords)
+        populate_records = self.request.get('populate')
+        logging.info(populate_records)
+        if populate_records == 'true':
+            self.response.write('populating records...')
+            #deferred.defer(populateRecords)
+            self.redirect('/')
+        else:  
+            data = "<h1>Hello welcome to Ric's Woven Code Test 2016</h1>"
+            self.response.write(data)
 
-        
-        data = "hello"
-        self.response.write(data)
+
+class AnalyticsWebsite(BaseHandler):
+    def get(self):
+        #website : all = find all website based on date arg, {name} = find exact website by name and by date   
+        #date : recent = past 7 days , week
+        try:
+            website = self.request.get('website')
+            date = self.request.get('date')
+            data = models.queryWebsite(website, date)
+            logging.info('website: ' + website + ' date: ' + date)
+            logging.info(data)
+            if data == False:
+                raise Exception
+            self.response.write(data)
+        except Exception as e:
+            logging.error(e)
+            self.response.set_status(400)
+            self.response.write(e)
+
 
 
 
@@ -87,6 +111,7 @@ def handle_500(request, response, exception):
 
 
 app = webapp2.WSGIApplication([
+    ('/analytics/website', AnalyticsWebsite),
     ('/', HomeHandler)
 ], debug=True)
 
