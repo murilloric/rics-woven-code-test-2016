@@ -65,7 +65,12 @@ def insertWebDayRecords(website, date):
 		web_day_model.put()
 
 def queryWebsite(website, date):
-	is_website = WebsiteModel.query(WebsiteModel.name == website).get()
+	#website must be in DataStore if True check if date args are equal to 'recent' or 'week' if not False
+	if website == 'all':
+		is_website = True
+	else:
+		is_website = WebsiteModel.query(WebsiteModel.name == website).get()
+
 	logging.info(is_website)
 	if is_website == None:
 		return False
@@ -76,6 +81,8 @@ def queryWebsite(website, date):
 			#query for data
 			if date == 'recent':
 				#query for past 7 days
+				#query
+
 				data = {}
 			elif date == 'week':
 				#query by website return days of the week
