@@ -91,8 +91,8 @@ def queryWebsite(website, date):
 				#  {'brobile.com':[{'6/20/2016':21}...]}
 				# ]
 
-				seven_days = ['06/06/2016', '06/07/2016', '06/08/2016', '06/09/2016', '06/10/2016']
-				#seven_days = getDateList()
+				#seven_days = ['06/06/2016', '06/07/2016', '06/08/2016', '06/09/2016', '06/10/2016']
+				seven_days = getDateList()
 				websites = {'uproxx.com':0, 'brobible.com':0}
 				for d in seven_days:
 					day = WebDayModel.query(WebDayModel.date == d).fetch()
