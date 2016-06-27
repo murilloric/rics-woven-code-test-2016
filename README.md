@@ -25,13 +25,28 @@ RESPONSE: {"status":200, "message":"message", 'data":{}}
 
 
 OPTION 1:
-total page views on each website for the past 7 days
+total page views on each website for the past 7 days.  Website with a value of all will look for all websites recorded.  Date 
+recent will look at todays date and count back seven days to get most recent page view count. 
 
+params
+website: all 
+date: recent
 
+curl call:  
+
+```curl -X GET -H "website: all" -H "date: recent" "https://rics-woven-code-test-2016.appspot.com/analytics/website?website=all&date=recent" ```
 
 
 OPTION 2:
-for a chosen website.  Total page views for each day of the week (Mon. - Sun)
+for a chosen website.  Total page views for each day of the week (Mon. - Sun). For the website key please type brobible.com or uproxx.com. For Date please type week.  The value are strict.
+
+params
+website: 'brobible.com' or 'uproxx.com'
+date: week
+
+
+```curl -X GET -H "website: all" -H "date: recent" "https://rics-woven-code-test-2016.appspot.com/analytics/website?website=uproxx.com&date=week" ```
+
 
 
 
