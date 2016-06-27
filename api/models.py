@@ -73,6 +73,7 @@ def getDateList():
 
 
 def queryWebsite(website, date):
+	logging.info('WEBSITE: ' + website + ' DATE: ' + date)
 	#website must be in DataStore if True check if date args are equal to 'recent' or 'week' if not False
 	is_website = WebsiteModel.query(WebsiteModel.name == website).get()
 	if is_website == None and website != 'all':
@@ -91,9 +92,9 @@ def queryWebsite(website, date):
 				# [{'uproxx.com':[{'6/20/2016':26}...]},
 				#  {'brobile.com':[{'6/20/2016':21}...]}
 				# ]
-
-				#seven_days = ['06/06/2016', '06/07/2016', '06/08/2016', '06/09/2016', '06/10/2016']
-				seven_days = getDateList()
+				seven_days = ['06/06/2016', '06/07/2016', '06/08/2016', '06/09/2016', '06/10/2016', '06/11/2016', '06/12/2016']
+				#hard coded dates based on the data I saw.  getDateList() will start from current date and count back 7 days.
+				#seven_days = getDateList()
 				websites = {'uproxx.com':0, 'brobible.com':0}
 				for d in seven_days:
 					day = WebDayModel.query(WebDayModel.date == d).fetch()
