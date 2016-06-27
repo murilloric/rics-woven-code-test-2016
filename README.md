@@ -12,14 +12,14 @@ There is one end-point with a GET method that takes two params. The return data 
 
 
 ------
-HOST: https://rics-woven-code-test-2016.appspot.com/
-PATH: /analytics/website
-FULL_URL: https://rics-woven-code-test-2016.appspot.com/analytics/website?website={{PARAM}}&date={{PARAM}}
-METHOD: GET
-PARAMS REQUIRED KEYS:  website and date 
-HEADERS: N/A (PUBLIC API)
-BODY: N/A
-RESPONSE: {"status":200, "message":"message", 'data":{}}
+* HOST: https://rics-woven-code-test-2016.appspot.com/
+* PATH: /analytics/website
+* FULL_URL: https://rics-woven-code-test-2016.appspot.com/analytics/website?website={{PARAM}}&date={{PARAM}}
+* METHOD: GET
+* PARAMS REQUIRED KEYS:  website and date 
+* HEADERS: N/A (PUBLIC API)
+* BODY: N/A
+* RESPONSE: {"status":200, "message":"message", 'data":{}}
 ------
 
 
